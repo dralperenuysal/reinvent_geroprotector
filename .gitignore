@@ -16,6 +16,9 @@
 /reinvent_run/priors/
 /reinvent_run/outputs/
 
+# Paper/abstract drafts (LaTeX sources, compiled PDFs, figures) -- kept local only
+/paper
+
 # Python
 __pycache__/
 *.pyc

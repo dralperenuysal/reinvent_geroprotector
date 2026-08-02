@@ -1,0 +1,49 @@
+=== SECTION 8: GENERATION ANALYSIS -- run2 ===
+
+--- 1. Generation statistics (3000 steps) ---
+Total samples: 384,000
+Valid SMILES: 381,330 (99.30%)
+Novel valid (not a repeat within the run): 381,043 (99.23%)
+Radical-electron species excluded (RDKit-valid but not closed-shell): 118
+Unique valid molecules across the whole run: 356,797
+Mean score: step 1 = 0.071, step 3000 = 0.580, peak = 0.639 (step 2740)
+
+--- Converged generated set (steps 2251-3000) ---
+Unique novel valid molecules: 92,454
+Distinct Murcko scaffolds: 81,712 (88.4% of molecules)
+Most common single scaffold: 0.0% of the converged set (diverse)
+Top 5 scaffolds by share:
+scaffold
+C1=Cc2ccccc2C1                 0.0
+O=C(C1=Cc2ccccc2C1)N1CCCCC1    0.0
+O=C(C1=CCC=C1)N1CCCCC1         0.0
+C1=CCC=C1                      0.0
+O=C(CC1COC1)C1=Cc2ccccc2C1     0.0
+Name: proportion, dtype: float64
+
+--- 4. Comparison: generated set vs LINCS library ---
+LINCS library (n=21,299): mean = -0.3176, std = 1.7431
+Generated set (n=92,454): mean = +0.7482, std = 0.2984
+Improvement: +1.0658 (0.61 library SDs)
+
+--- 3. Novelty: nearest-neighbor Tanimoto similarity to the LINCS library ---
+Nearest-neighbor Tanimoto similarity to LINCS library (n=3,000 sampled):
+  mean = 0.179, median = 0.175, max = 0.426
+  molecules with nn_similarity > 0.85 (near-copies): 0/92454
+
+--- 5. Top 10 candidates by SenMayo_reversal (raw), one per scaffold ---
+                                          canonical  SenMayo_reversal (raw)  QED (raw)  Synthesizability (raw)  nn_similarity_to_lincs                                   scaffold
+      CC1=CC(=O)NC(c2nc(C(=O)NCCC3(CO)CCC3)cs2)CC1C                   1.594      0.711                   0.196                   0.152      O=C1C=CCCC(c2nc(C(=O)NCCC3CCC3)cs2)N1
+   CC1=CC(CC(=O)Nc2nc(C(=O)NCC3(CO)CCOC3)cs2)=CCC1C                   1.530      0.647                   0.223                   0.192   O=C(CC1=CCCC=C1)Nc1nc(C(=O)NCC2CCOC2)cs1
+      CC1=CC(C(=O)CNc2nc(C(=O)NCC3(CO)CC3)cs2)=CC1C                   1.518      0.660                   0.170                   0.162      O=C(CNc1nc(C(=O)NCC2CC2)cs1)C1=CCC=C1
+       CC1=CC(C)C(Nc2nc(C(=O)NCCC3(CO)CCNC3)cs2)=C1                   1.508      0.597                   4.143                   0.154         O=C(NCCC1CCNC1)c1csc(NC2=CC=CC2)n1
+       CC1CC(C)C(CNc2nc(C(=O)NCC3(CO)CC3)cs2)=CC1=O                   1.505      0.691                   0.174                   0.151       O=C1C=C(CNc2nc(C(=O)NCC3CC3)cs2)CCC1
+CCC1(CO)CC(NC(=O)c2csc(NC(=O)C3=CC(C)=CC(C)C3)n2)C1                   1.505      0.696                   3.643                   0.188      O=C(Nc1nc(C(=O)NC2CCC2)cs1)C1=CC=CCC1
+    CC1=CC(NC(=O)Nc2nc(C(=O)NCCC3(CO)CC3)cs2)=CCC1C                   1.495      0.574                   0.192                   0.185    O=C(NC1=CCCC=C1)Nc1nc(C(=O)NCCC2CC2)cs1
+ CC1=CC(C(=O)Nc2nc(C(=O)NCCC3(CO)COC3)cs2)=CC(C)C1C                   1.492      0.647                   3.990                   0.193    O=C(Nc1nc(C(=O)NCCC2COC2)cs1)C1=CCCC=C1
+   CC1=CC(NC(=O)Nc2nc(C(=O)NCC3(CO)CCOC3)cs2)=CCC1C                   1.492      0.579                   3.951                   0.184   O=C(NC1=CCCC=C1)Nc1nc(C(=O)NCC2CCOC2)cs1
+ CC1=CC(C(=O)Nc2nc(C(=O)NC(=O)CCC3(CO)CC3)cs2)=CC1C                   1.486      0.664                   3.629                   0.190 O=C(CCC1CC1)NC(=O)c1csc(NC(=O)C2=CCC=C2)n1
+
+Saved /home/alperen/projects/reinvent_geroprotector/data/processed/run2/top_candidates_diverse.csv and generated_set_converged.csv
+Saved 2D depiction to /home/alperen/projects/reinvent_geroprotector/data/processed/run2/top_candidates_diverse.png
+EXIT:0
