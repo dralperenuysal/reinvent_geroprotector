@@ -1,0 +1,73 @@
+=== PLAN B STEP 1: LINCS L1000 SCREEN vs SenMayo SIGNATURE (real measured data) ===
+>>> SenMayo genes (target signature): 125
+>>> Background (BING, both phases): 10,174 genes | SenMayo covered: 106/125
+
+>>> GSE70138 (phase2): matrix (118050, 12328) | 12,328 genes x 118,050 signatures
+>>> Compound signatures: 107,404 across 1,796 compounds
+
+>>> GSE92742 (phase1): matrix (473647, 12328) | 12,328 genes x 473,647 signatures
+>>> Compound signatures: 205,034 across 20,413 compounds
+>>> Reusing cached expression slab (slab_GSE70138_senmayo_bg_10174g_trtcp.npy)
+>>> Reusing cached expression slab (slab_GSE92742_senmayo_bg_10174g_trtcp.npy)
+
+>>> Signature matrix: 312,438 signatures x 10,174 background genes (106 SenMayo)
+>>> Library composition: phase1 205,034 sigs, phase2 107,404 sigs | 21,299 distinct compounds over 83 cell lines
+>>> Cross-phase agreement on 910 shared compounds: r = +0.475
+
+>>> Compounds passing permutation null at FDR<0.05: 1,959/21,299
+>>> Predicted reversers (reversal_score>0, FDR<0.05): 472
+
+=== TOP 15 PREDICTED SenMayo REVERSERS ===
+       pert_iname  reversal_score  z_vs_null    fdr  n_sig  sign_consistency                                                                                    moa
+          FG-7142            6.88      -6.88 0.0112     15             0.875                                      GABA benzodiazepine site receptor inverse agonist
+ERK-inhibitor-11E            6.32      -6.32 0.0112     59             0.804                                                                                    NaN
+    BRD-K93291781            6.07      -6.07 0.0112      2               NaN                                                                                    NaN
+         PD-98059            5.57      -5.57 0.0112     96             0.724                                                                          MEK inhibitor
+           OM-137            5.53      -5.53 0.0112     17             0.692                                                                                    NaN
+    BRD-K15885023            5.49      -5.49 0.0112     13             0.889                                                                                    NaN
+          TWS-119            5.43      -5.43 0.0112    199             0.714                                                     glycogen synthase kinase inhibitor
+        terazosin            5.36      -5.36 0.0112     28             0.667                                                         adrenergic receptor antagonist
+    BRD-A44244100            5.32      -5.32 0.0112     12                 1                                                                                    NaN
+    BRD-K71533863            5.32      -5.32 0.0112      2               NaN                                                                                    NaN
+    BRD-K22177698            5.28      -5.28 0.0112      6                 1                                                                                    NaN
+    BRD-M51239075            5.24      -5.24 0.0112      2               NaN                                                                                    NaN
+    BRD-K02502363            5.22      -5.22 0.0112     13             0.667                                                                                    NaN
+        orteronel             5.2       -5.2 0.0112     58               0.8 androgen biosynthesis inhibitor|androgen receptor antagonist|cytochrome P450 inhibitor
+        LY-303511            5.11      -5.11 0.0112     19             0.846                                                                                    NaN
+
+=== BOTTOM 10 (predicted SenMayo INDUCERS) ===
+                     pert_iname  reversal_score  z_vs_null    fdr  n_sig  sign_consistency                                              moa
+      phorbol-myristate-acetate           -12.9       12.9 0.0112     81                 1                                              NaN
+                     prostratin           -12.4       12.4 0.0112     13             0.889                                              NaN
+phorbol-12-myristate-13-acetate           -12.3       12.3 0.0112     95             0.941                                              NaN
+                        ingenol           -12.2       12.2 0.0112    107                 1                                    PKC activator
+               ingenol-mebutate           -10.5       10.5 0.0112     42                 1                                    PKC activator
+                     LY-2334737           -9.65       9.65 0.0112     42                 1                                              NaN
+                     nafamostat              -9          9 0.0112     42                 1                        serine protease inhibitor
+                chloramphenicol           -8.92       8.92 0.0112     42                 1        bacterial 50S ribosomal subunit inhibitor
+                    isbufylline           -8.48       8.48 0.0112     42                 1                      phosphodiesterase inhibitor
+                   dipraglurant           -8.27       8.27 0.0112     42                 1 glutamate receptor negative allosteric modulator
+
+=== SECTION 3.0 ROBUSTNESS CHECK: known senolytics/senomorphics (real LINCS data) ===
+  pert_iname  reversal_score  percentile    fdr
+   dasatinib            3.18        98.6  0.033
+   sirolimus           0.909        76.4  0.647
+panobinostat           0.673        71.4  0.745
+  vorinostat          0.0566        57.5  0.987
+  navitoclax          -0.171        51.4  0.946
+   sirolimus          -0.735        37.5  0.716
+   sirolimus           -1.38        24.3  0.426
+   quercetin           -1.48        22.6   0.38
+   sirolimus           -1.55        21.3  0.345
+   sirolimus            -1.8        17.4   0.27
+   sirolimus            -2.7        8.07 0.0737
+
+Library mean reversal_score = -0.3176
+5/11 positive controls score above the library mean.
+
+=== CYTOTOXICITY CONFOUND CHECK ===
+  Cytotoxic-annotated compounds: 209/21299
+  Median reversal_score cytotoxic -1.609 vs rest -0.220 (Mann-Whitney p = 0.0000)
+
+>>> Saved data/processed/lincs_senmayo_screen_results.csv
+EXIT:0

@@ -1,0 +1,11 @@
+# Phase 0 smoke test: sample from the prior, no RL yet.
+run_type = "sampling"
+device = "cuda:0"
+json_out_config = "_sampling_smoketest.json"
+
+[parameters]
+model_file = "/home/alperen/projects/reinvent_geroprotector/reinvent_run/priors/reinvent_pubchem.prior"
+output_file = "/home/alperen/projects/reinvent_geroprotector/reinvent_run/outputs/sampling_smoketest.csv"
+num_smiles = 200
+unique_molecules = true
+randomize_smiles = true

@@ -1,0 +1,27 @@
+# Cloned external repositories (each carries its own separate git history)
+/REINVENT4
+/gps
+
+# Raw LINCS/SenMayo downloads: tens of GB, reproducible from data/README or
+# fetch scripts, not meant for version control
+/data/raw
+
+# Generated model artifacts too large for git (bridge_model.joblib ~230MB,
+# over GitHub's 100MB hard limit) -- the small CSV results next to it
+# (screen results, validation, held-out predictions) stay tracked
+/data/processed/*.joblib
+
+# REINVENT4 run artifacts: prior weights (~23MB) and generated logs/CSVs/
+# checkpoints/TensorBoard data, all reproducible by rerunning the configs
+/reinvent_run/priors/
+/reinvent_run/outputs/
+
+# Python
+__pycache__/
+*.pyc
+
+# Editor/OS
+.DS_Store
+*.swp
+
+AGENTS.md

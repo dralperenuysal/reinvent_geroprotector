@@ -1,0 +1,17 @@
+run_type = "scoring"
+device = "cuda:0"
+json_out_config = "_scoring_smoketest.json"
+
+[parameters]
+smiles_file = "/home/alperen/projects/reinvent_geroprotector/reinvent_run/configs/scoring_smoketest_smiles.smi"
+output_csv = "/home/alperen/projects/reinvent_geroprotector/reinvent_run/outputs/scoring_smoketest.csv"
+
+[scoring]
+type = "arithmetic_mean"
+
+[[scoring.component]]
+[scoring.component.SenmayoBridge]
+[[scoring.component.SenmayoBridge.endpoint]]
+name = "SenMayo_reversal"
+weight = 1.0
+params.model_file = "/home/alperen/projects/reinvent_geroprotector/data/processed/bridge_model.joblib"

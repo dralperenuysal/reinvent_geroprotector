@@ -1,0 +1,31 @@
+=== PLAN B STEP 2: STRUCTURE -> SenMayo REVERSAL-SCORE BRIDGE ===
+>>> Compounds with screen score + SMILES: 21,236
+>>> Featurized 21,220 molecules | 2,058 features | 6,035 distinct Murcko scaffolds
+>>> Scaffold split: train 15,915 / test 5,305 (zero scaffold overlap between them)
+
+>>> Held-out (scaffold-split) performance predicting reversal_score from structure:
+    (5305 held-out compounds; majority-class sign baseline = 65.5%)
+  Ridge (direct reversal_score) r=+0.232  rho=+0.167  sign-acc=64.9% (baseline 65.5%)  balanced=57.3%
+  RandomForest (direct reversal_score) r=+0.263  rho=+0.175  sign-acc=66.1% (baseline 65.5%)  balanced=58.7%
+  [permutation null]           r=-0.000 +/- 0.013
+  [balanced-acc null]          observed=57.3% vs null 50.0% +/- 1.2%  (p = 0.0005, n=1,326 top-quartile compounds)
+
+>>> Best bridge: RandomForest (direct reversal_score) (scaffold-split r=+0.263)
+>>> Saved data/processed/bridge_model.joblib (deployed model refit on all 21,220 compounds)
+
+>>> HONEST CEILING for the Plan B bridge:
+      scaffold-split r        = +0.263  (permutation null -0.000 +/- 0.013)
+      balanced sign accuracy  = 58.7%  (0.5 = chance; raw accuracy 66.1% vs baseline 65.5%)
+      Variance explained across novel scaffolds: ~7%.
+
+=== SECTION 3.0 ROBUSTNESS CHECK (bridge model's own structure-based predictions) ===
+Library mean reversal_score (real measured data, all training compounds) = -0.3176
+dasatinib         -1.7422
+navitoclax        -1.1455
+quercetin         -1.1107
+sirolimus      invalid SMILES
+vorinostat        -0.0457 <-- above library mean
+panobinostat      +0.2726 <-- above library mean
+
+2/5 positive controls score above the library mean (bridge model predictions).
+EXIT:0
