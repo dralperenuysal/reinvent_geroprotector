@@ -30,6 +30,10 @@ plt.rcParams.update({
     "font.size": 12,
     "axes.spines.top": False,
     "axes.spines.right": False,
+    "axes.edgecolor": "#3a3a3a",
+    "axes.linewidth": 0.9,
+    "xtick.color": "#3a3a3a",
+    "ytick.color": "#3a3a3a",
 })
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -37,9 +41,13 @@ PROC = f"{ROOT}/data/processed"
 OUT = f"{ROOT}/paper/figures"
 os.makedirs(OUT, exist_ok=True)
 
-RED = "#d62728"    # Run 1 / RandomForest (deployed)
-BLUE = "#1f77b4"   # Run 2
-GRAY = "#7f7f7f"   # LINCS library / non-selected model
+# Palette: CVD-validated categorical hues (blue/red slots, adjacent-pair Jaccard
+# CVD dE >= 8 in OKLab), swapped in for matplotlib's flat C0/C3 defaults; GRAY is
+# a warm neutral rather than pure #7f7f7f so it doesn't read as "disabled" ink.
+RED = "#e34948"    # Run 1 / RandomForest (deployed)
+BLUE = "#2a78d6"   # Run 2
+GRAY = "#8c8a82"   # LINCS library / non-selected model
+HAIRLINE = "#c9c7bd"  # reference bands/lines, replaces heavy black at low weight
 
 CYTOTOXIC_MOA = ("topoisomerase inhibitor", "tubulin polymerization inhibitor",
                   "microtubule inhibitor", "DNA synthesis inhibitor", "DNA alkylating agent",
@@ -61,15 +69,14 @@ def figure_bridge_validation():
     null_mean, null_sd = -0.000, 0.013  # oracle/lincs_structure_bridge.log, 200 shuffles
 
     fig, ax = plt.subplots(figsize=(6, 5))
-    ax.axhspan(null_mean - null_sd, null_mean + null_sd, color="black", alpha=0.08,
+    ax.axhspan(null_mean - null_sd, null_mean + null_sd, color=HAIRLINE, alpha=0.5,
                label=f"Permutation null (mean$\\pm$SD, 200 shuffles)")
-    ax.axhline(null_mean, color="black", lw=1, ls="--", alpha=0.5)
+    ax.axhline(null_mean, color="#6b6a63", lw=1, ls="--", alpha=0.7)
 
     xs = [0, 1]
     heights = [r_ridge, r_rf]
     colors = [GRAY, RED]
-    bars = ax.bar(xs, heights, width=0.55, color=colors, edgecolor="black", linewidth=0.8)
-    bars[1].set_linewidth(2.2)  # highlight the deployed model
+    bars = ax.bar(xs, heights, width=0.4, color=colors, edgecolor="none")
 
     for x, h in zip(xs, heights):
         ax.text(x, h + 0.008, f"r = {h:.3f}", ha="center", va="bottom", fontsize=11)
@@ -106,14 +113,17 @@ def figure_real_data_validation():
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(11, 4.6))
 
     # --- panel a: cytotoxic vs rest (boxplot: heavy-tailed data, no clipping artifacts) ---
-    bp = ax1.boxplot([rest, cy], positions=[0, 1], widths=0.55, patch_artist=True,
+    bp = ax1.boxplot([rest, cy], positions=[0, 1], widths=0.4, patch_artist=True,
                       showfliers=True,
                       flierprops=dict(marker="o", markersize=2, alpha=0.25, markeredgewidth=0),
-                      medianprops=dict(color="black", linewidth=1.8))
+                      medianprops=dict(color="black", linewidth=1.8),
+                      whiskerprops=dict(color="#3a3a3a", linewidth=1),
+                      capprops=dict(color="#3a3a3a", linewidth=1))
     for patch, color in zip(bp["boxes"], [GRAY, RED]):
         patch.set_facecolor(color)
-        patch.set_alpha(0.65)
-        patch.set_edgecolor("black")
+        patch.set_alpha(0.75)
+        patch.set_edgecolor("#3a3a3a")
+        patch.set_linewidth(1)
     ax1.set_xticks([0, 1])
     ax1.set_xticklabels([f"Rest of library\n(n={len(rest):,})",
                           f"Cytotoxic /\nDNA-damage MoA\n(n={len(cy):,})"])
@@ -452,7 +462,7 @@ def figure_motif_enrichment():
 
     labels_a = [r[0] for r in results_a]
     pct_a = [100 * r[1] / r[2] for r in results_a]
-    bars1 = ax1.bar(labels_a, pct_a, color=[GRAY, RED, BLUE], edgecolor="black", linewidth=0.8)
+    bars1 = ax1.bar(labels_a, pct_a, width=0.55, color=[GRAY, RED, BLUE], edgecolor="none")
     for bar, r in zip(bars1, results_a):
         ax1.text(bar.get_x() + bar.get_width() / 2, bar.get_height() + 0.04,
                   f"{r[1]}/{r[2]:,}", ha="center", va="bottom", fontsize=8.5)
@@ -462,8 +472,8 @@ def figure_motif_enrichment():
 
     labels_b = [r[0] for r in results_b]
     pct_b = [100 * r[1] / r[2] for r in results_b]
-    bars2 = ax2.bar(labels_b, pct_b, color=[BLUE, BLUE, BLUE, "black"],
-                     edgecolor="black", linewidth=0.8)
+    bars2 = ax2.bar(labels_b, pct_b, width=0.6, color=[BLUE, BLUE, BLUE, "black"],
+                     edgecolor="none")
     for bar, alpha in zip(bars2, [0.55, 0.7, 0.85, 1.0]):
         bar.set_alpha(alpha)
     for bar, r in zip(bars2, results_b):
@@ -516,11 +526,18 @@ def figure_gene_heatmap():
     ax.set_yticklabels(genes, fontsize=8)
     ax.axvline(5.5, color="black", lw=1.8)
 
-    ax.text(2.5, -1.6, "Real measured (positive controls)", ha="center", fontsize=9.5, fontweight="bold")
-    ax.text(10.5, -1.6, "Bridge-model predicted (Run-2 top-10)", ha="center", fontsize=9.5, fontweight="bold")
+    # x in data coords (column position), y in axes-fraction (0-1) via the blended
+    # x-axis transform -- a fixed y=1.03 clears the title regardless of row count,
+    # unlike the previous data-coordinate y=-1.6 (its physical gap above the plot
+    # shrank as more genes/rows were added, until it collided with the title).
+    header_trans = ax.get_xaxis_transform()
+    ax.text(2.5, 1.03, "Real measured (positive controls)", transform=header_trans,
+            ha="center", fontsize=9.5, fontweight="bold")
+    ax.text(10.5, 1.03, "Bridge-model predicted (Run-2 top-10)", transform=header_trans,
+            ha="center", fontsize=9.5, fontweight="bold")
     ax.set_title("SenMayo gene-level response: measured vs. predicted\n"
                   "(genes ranked by scaffold-split validated $r$, top = most reliable)",
-                  fontsize=11.5, pad=28)
+                  fontsize=11.5, pad=42)
 
     cbar = fig.colorbar(im, ax=ax, shrink=0.75, pad=0.02)
     cbar.set_label("SenMayo gene $z$-score\n(negative = down-regulated = reversal)", fontsize=9)
@@ -548,11 +565,15 @@ def figure_scaffold_diversity():
         (ax1, run1, RED, "Run 1", "Run 1"), (ax2, run2, BLUE, "Run 2", "Run 2")
     ]:
         share = 100 * df.scaffold.value_counts(normalize=True).head(10)
-        bars = ax.bar(range(1, 11), share.values, color=color, edgecolor="black", linewidth=0.7)
+        bars = ax.bar(range(1, 11), share.values, width=0.65, color=color, edgecolor="none")
         fmt = "{:.1f}%" if share.iloc[0] >= 1 else "{:.3f}%"
         for bar, v in zip(bars, share.values):
-            ax.text(bar.get_x() + bar.get_width() / 2, bar.get_height(),
-                     fmt.format(v), ha="center", va="bottom", fontsize=8, rotation=90 if share.iloc[0] < 1 else 0)
+            # offset in points (not data units) so the gap survives rotation --
+            # a data-space offset only pads the pre-rotation anchor and the
+            # rotated glyphs still dip back into the bar (verified visually).
+            ax.annotate(fmt.format(v), xy=(bar.get_x() + bar.get_width() / 2, bar.get_height()),
+                        xytext=(0, 3), textcoords="offset points",
+                        ha="center", va="bottom", fontsize=8, rotation=90 if share.iloc[0] < 1 else 0)
         ax.set_xlabel("scaffold rank")
         ax.set_ylabel("% of converged set")
         ax.set_title(f"{run_name}: top-10 scaffold share\n(note: independent $y$-axis scale)", fontsize=10.5)
@@ -569,9 +590,46 @@ def figure_scaffold_diversity():
           f"Run2 top scaffold {100*run2.scaffold.value_counts(normalize=True).iloc[0]:.4f}%)")
 
 
+# ============================================================== Figure I
+# Reward progression over RL steps, both runs -- restyles the original raw
+# per-step trace (very high step-to-step noise made the trend read as a thick
+# smear in matplotlib's default colors). The raw series is kept, drawn thin
+# and faint, with a rolling-mean summary line on top; both are the same real
+# per-batch mean reward at two smoothing levels, so nothing is hidden.
+def figure_score_progression(window=21):
+    run1 = pd.read_csv(f"{PROC}/run1/score_progression.csv")
+    run2 = pd.read_csv(f"{PROC}/run2/score_progression.csv")
+
+    fig, ax = plt.subplots(figsize=(7.5, 4.8))
+    for df, color, label in [
+        (run1, RED, "Run 1 (bucket=25, sigma=128)"),
+        (run2, BLUE, "Run 2 (bucket=5, sigma=100)"),
+    ]:
+        smoothed = df.Score.rolling(window, center=True, min_periods=1).mean()
+        ax.plot(df.step, df.Score, color=color, lw=0.6, alpha=0.25)
+        ax.plot(df.step, smoothed, color=color, lw=2, label=label)
+
+    ax.set_xlabel("RL step")
+    ax.set_ylabel("Mean batch reward (geometric mean)")
+    ax.set_title(f"Reward progression during reinforcement learning\n"
+                  f"(rolling {window}-step mean over the raw per-batch trace)", fontsize=12.5)
+    ax.legend(loc="lower right", frameon=False, fontsize=10)
+    ax.set_xlim(0, max(run1.step.max(), run2.step.max()))
+    fig.tight_layout()
+    fig.savefig(f"{OUT}/score_progression.png", dpi=200)
+    plt.close(fig)
+    print(f"Saved {OUT}/score_progression.png  "
+          f"(Run1 final={run1.Score.iloc[-1]:.3f}, Run2 final={run2.Score.iloc[-1]:.3f})")
+
+
 if __name__ == "__main__":
     figure_bridge_validation()
     figure_real_data_validation()
     figure_score_distributions()
     figure_chemical_space()
     figure_top10_radar()
+    figure_gps_diagnostic()
+    figure_motif_enrichment()
+    figure_gene_heatmap()
+    figure_scaffold_diversity()
+    figure_score_progression()
