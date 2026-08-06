@@ -4,6 +4,8 @@ Generative molecular design guided by a reward oracle trained on real LINCS L100
 transcriptomic data, applied to reversing the senescence-associated secretory
 phenotype (SASP) via [REINVENT4](https://github.com/MolecularAI/REINVENT4).
 
+[![DOI](https://zenodo.org/badge/1320136321.svg)](https://doi.org/10.5281/zenodo.21828218)
+
 Cellular senescence contributes to aging and age-related disease largely through the
 SASP, a secreted program of pro-inflammatory cytokines, chemokines, and proteases.
 SenMayo is a validated 125-gene transcriptomic signature of SASP activity. This
