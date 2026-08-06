@@ -1,0 +1,20 @@
+# Pinned to the environment that produced the results and figures reported in
+# the manuscript. Covers the oracle/analysis pipeline (oracle/, analysis/) --
+# REINVENT4 itself is a separate install, see its own repository:
+# https://github.com/MolecularAI/REINVENT4
+#
+# torch is CPU-only here; installing it plain from PyPI on some platforms
+# pulls CUDA wheels (multi-GB). If that happens, install it explicitly first:
+#   pip install torch==2.12.1 --extra-index-url https://download.pytorch.org/whl/cpu
+# then `pip install -r requirements.txt`.
+
+rdkit==2026.3.3
+torch==2.12.1
+scikit-learn==1.9.0
+pandas==3.0.3
+numpy==2.4.6
+scipy==1.18.0
+matplotlib==3.10.9
+umap-learn==0.5.12
+h5py==3.16.0
+joblib==1.5.3

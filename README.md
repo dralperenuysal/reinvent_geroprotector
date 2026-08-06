@@ -13,9 +13,6 @@ transcriptomics (not a pretrained black-box model), then uses that oracle as the
 reward function for a REINVENT4 reinforcement-learning run, producing novel,
 drug-like candidate molecules predicted to reverse SASP.
 
-The full write-up, with methods, validation, and a documented failure mode, is in
-`paper/manuscript.tex` (not tracked in this repository; see below).
-
 ## Key results
 
 - Reward oracle (Random Forest on Morgan fingerprints + physicochemical descriptors)
@@ -53,6 +50,8 @@ gps/               GPS model clone, used only for the rejection diagnostic
                    (gitignored; see oracle/gps_real_diagnostic.py)
 paper/             Manuscript, conference abstract, and figures (gitignored, kept
                    local; see Data and code availability below)
+docker/            Self-contained Docker image (Dockerfile, CLI, run configs);
+                   see Docker below
 ```
 
 ## Pipeline
@@ -107,15 +106,20 @@ results (screen results, validation metrics, held-out predictions) are tracked i
 excluded for size but is reproducible by rerunning `oracle/lincs_structure_bridge.py`
 against the raw data.
 
-The `paper/` directory (manuscript, abstract, figures) is intentionally kept local
-only and is not tracked in this repository.
-
 ## Requirements
 
 Python with `rdkit`, `torch`, `scikit-learn`, `pandas`, `numpy`, `scipy`,
-`matplotlib`, `umap-learn`, `h5py`, and `joblib`; REINVENT4 itself (see its own
-[repository](https://github.com/MolecularAI/REINVENT4) for installation). No pinned
-`requirements.txt` is included yet.
+`matplotlib`, `umap-learn`, `h5py`, and `joblib` -- pinned to the versions used to
+produce the manuscript's results in `requirements.txt`:
+
+```
+pip install torch==2.12.1 --extra-index-url https://download.pytorch.org/whl/cpu
+pip install -r requirements.txt
+```
+
+REINVENT4 itself is a separate install (see its own
+[repository](https://github.com/MolecularAI/REINVENT4)); the pinned versions above
+cover the oracle/analysis pipeline (`oracle/`, `analysis/`) only.
 
 ## Limitations
 
