@@ -93,6 +93,9 @@ docker run --rm -v $(pwd):/data ghcr.io/dralperenuysal/reinvent-geroprotector:la
     --input /data/my_compounds.csv --output /data/scores.csv
 ```
 
+`latest` tracks ongoing updates; use the `v1.0.0` tag instead to pin the exact
+image that produced the results reported in the manuscript.
+
 See `docker/README.md` for the full usage guide (sampling from the trained agent,
 running RL from scratch, swapping in a different oracle, and building from source
 instead of pulling).

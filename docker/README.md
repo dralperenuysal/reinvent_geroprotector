@@ -8,14 +8,21 @@ retraining anything.
 
 ### Pull (recommended)
 
-No build needed -- pulls the exact image used for the paper's results:
+No build needed:
 
 ```
 docker pull ghcr.io/dralperenuysal/reinvent-geroprotector:latest
 ```
 
-The usage examples below use this image name; if you built locally instead,
-substitute `reinvent-geroprotector` for `ghcr.io/dralperenuysal/reinvent-geroprotector:latest`.
+`latest` tracks ongoing updates. To pull the exact image used to produce the
+results reported in the manuscript, pull the pinned tag instead:
+
+```
+docker pull ghcr.io/dralperenuysal/reinvent-geroprotector:v1.0.0
+```
+
+The usage examples below use the `latest` image name; if you pulled `v1.0.0` or
+built locally instead, substitute the tag/name accordingly.
 
 ### Build from source
 
