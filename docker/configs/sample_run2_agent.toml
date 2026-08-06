@@ -1,0 +1,13 @@
+# Sample novel molecules directly from the trained Run-2 agent (post-RL,
+# 3000 steps, the diverse/non-collapsed run reported in the manuscript) --
+# no training required, runs in seconds to minutes on CPU.
+run_type = "sampling"
+device = "cpu"
+json_out_config = "/data/_sampling_run2.json"
+
+[parameters]
+model_file = "/opt/senmayo/run2_stage1.chkpt"
+output_file = "/data/sampled_run2.csv"
+num_smiles = 200
+unique_molecules = true
+randomize_smiles = true

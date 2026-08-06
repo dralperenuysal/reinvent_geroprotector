@@ -1,0 +1,18 @@
+# Keep the Docker build context small -- mirrors .gitignore, plus dev-only
+# directories that are irrelevant to the image (git history, the GPS clone
+# used only for the rejection diagnostic, raw data, paper drafts). The
+# Dockerfile only needs two specific files out of these large local trees;
+# they're negated back in explicitly.
+.git
+gps
+data/raw
+paper
+reinvent_run/outputs
+!reinvent_run/outputs/run2_stage1.chkpt
+data/processed/*.joblib
+!data/processed/bridge_model.joblib
+
+__pycache__
+*.pyc
+.DS_Store
+*.swp
