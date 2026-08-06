@@ -1,0 +1,25 @@
+{
+  "title": "reinvent_geroprotector: Generative Molecular Design for Senescence-Associated Secretory Phenotype (SASP) Reversal",
+  "description": "<p>A REINVENT4 reinforcement-learning pipeline for generative molecular design targeting reversal of the senescence-associated secretory phenotype (SASP). A structure-based reward oracle is trained directly on real LINCS L1000 transcriptomic data (21,299 compounds) against the SenMayo gene signature, then used to steer a REINVENT4 agent toward novel, drug-like candidates predicted to reverse SASP. Includes the full oracle-training pipeline, REINVENT4 run configurations, post-hoc analysis/figure-generation scripts, and a self-contained Docker image bundling the trained oracle and agent for reuse without retraining.</p><p>Companion manuscript: \"Generative Molecular Design for Senescence-Associated Secretory Phenotype (SASP) Reversal: A REINVENT4 Pipeline Trained on Real LINCS L1000 Transcriptomic Data.\"</p>",
+  "creators": [
+    {
+      "name": "S. Alperen Uysal, MD, PhD",
+      "affiliation": "Department of Medical Biology and Genetics, School of Medicine, Ege University",
+      "orcid": "0000-0003-3777-6411"
+    }
+  ],
+  "license": "MIT",
+  "upload_type": "software",
+  "access_right": "open",
+  "keywords": [
+    "cellular senescence",
+    "senescence-associated secretory phenotype",
+    "generative molecular design",
+    "REINVENT4",
+    "LINCS L1000",
+    "reinforcement learning",
+    "geroprotectors",
+    "drug repurposing",
+    "cheminformatics"
+  ]
+}
